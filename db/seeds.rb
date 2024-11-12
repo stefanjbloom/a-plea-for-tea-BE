@@ -1,6 +1,9 @@
+# at least 3 seeds each for our 3(total) tables
+
 Customer.destroy_all
 Tea.destroy_all
 Subscription.destroy_all
+# prevents duplicates if/when re-seeding
 
 customers = [
   { firstname: "Stefan", lastname: "Shepard", email: "stefan@example.com", address: "10 Example Circle" },
