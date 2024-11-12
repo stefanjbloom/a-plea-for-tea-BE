@@ -12,6 +12,7 @@ RSpec.describe Subscription, type: :model do
     it { should validate_numericality_of(:tea_id).only_integer }
     it { should validate_numericality_of(:price) }
     it { should validate_inclusion_of(:status).in_array(%w(active canceled)).with_message("Invalid Status") }
+    it { should validate_inclusion_of(:frequency).in_array(%w(weekly monthly)).with_message("Only Weekly or Monthly") }
   end
 
   describe 'associations' do
