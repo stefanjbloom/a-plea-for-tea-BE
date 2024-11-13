@@ -18,5 +18,3 @@ class Api::V1::SubscriptionsController < ApplicationController
   end
 end
 
-# An endpoint to get info about one subscription, including the tea(s) involved and 
-# what customer(s) is subscribed or has been in the past (if cancelled)
