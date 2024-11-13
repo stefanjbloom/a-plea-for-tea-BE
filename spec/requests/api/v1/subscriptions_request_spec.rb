@@ -97,8 +97,27 @@ RSpec.describe "Subscriptions_Controller", type: :request do
 
   describe "PATCH/#update" do
     it 'can change a subscription\'s status from "active" to "canceled"' do
+      # Original status
+      expect(@subscription3.status).to eq('canceled')
+
+      # #update action to change status
+      patch "http://localhost:3000/api/v1/subscriptions/#{@subscription3.id}"
+
+      expect(response).to have_http_status(:ok)
+
+      result = JSON.parse(response.body, symbolize_names: true)
+
+      expect(result[:message]).to eq("Subscription Status Changed")
+      expect(result[:status]).to eq("active")
       
-      patch "http://localhost:3000/api/v1/subscriptions/#{@subscription2.id}"
+      #Checking to see if change updated #show endpoint 
+      get "http://localhost:3000/api/v1/subscriptions/#{@subscription3.id}"
+
+      expect(response).to have_http_status(:ok)
+
+      result = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
+
+      expect(result[:status]).to eq('active')
     end
   end
 end

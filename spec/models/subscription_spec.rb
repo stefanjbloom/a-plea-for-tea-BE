@@ -22,19 +22,24 @@ RSpec.describe Subscription, type: :model do
 
   describe '#update_subscription' do
     it 'changes subscriptions status from "canceled" to "active" & vice versa' do
-      @customer1 = Customer.create!(firstname: "Stefan", lastname: "Shepard", email: "stefan12@example.com", address: "10 Example Circle")
+      @customer1 = Customer.create!(
+        firstname: "Stefan", lastname: "Shepard", email: "stefan12@example.com", address: "10 Example Circle"
+        )
 
-      @tea1 = Tea.create!(title: "Matcha Tea", description: "An energizing green tea.", temperature: 130, brewtime: 3)
+      @tea1 = Tea.create!(
+        title: "Matcha Tea", description: "An energizing green tea.", temperature: 130, brewtime: 3
+        )
 
-      @subscription1 = Subscription.create!(title: "Monthly Matcha", price: 19.99, status: "active", 
-                                            frequency: "monthly", customer_id: @customer1.id, tea_id: @tea1.id)
+      @subscription1 = Subscription.create!(
+        title: "Monthly Matcha", price: 19.99, status: "active", frequency: "monthly", customer_id: @customer1.id, tea_id: @tea1.id
+        )
 
       expect(@subscription1.status).to eq("active")
 
-      @subscription1.update_subscription!
+      @subscription1.update_subscription
       expect(@subscription1.status).to eq("canceled")
 
-      @subscription1.update_subscription!
+      @subscription1.update_subscription
       expect(@subscription1.status).to eq("active")
 
     end
