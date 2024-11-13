@@ -11,6 +11,18 @@ class Api::V1::SubscriptionsController < ApplicationController
     render json: SubscriptionShowSerializer.new(subscription), status: :ok
   end
 
+  def update
+    subscription = Subscription.find(params[:id])
+    update_subscription = subscription.change_status(subscription)
+    
+    if update_subscription[:errors]
+      render json: {error: updated_coupon[:errors]}, status: 422
+    else
+      render json: {message: "Subscription Status Changed"}, status: 200
+    end
+
+  end
+
   private
   
   def not_found_response(exception)
