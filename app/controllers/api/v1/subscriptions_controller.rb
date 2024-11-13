@@ -3,12 +3,12 @@ class Api::V1::SubscriptionsController < ApplicationController
 
   def index
     subscriptions = Subscription.all
-    render json: SubscriptionSerializer.new(subscriptions).serializable_hash, status: :ok
+    render json: SubscriptionSerializer.new(subscriptions), status: :ok
   end
 
   def show
     subscription = Subscription.find(params[:id])
-    render json: SubscriptionSerializer.new(subscription).serializable_hash, status: :ok
+    render json: SubscriptionShowSerializer.new(subscription), status: :ok
   end
 
   private

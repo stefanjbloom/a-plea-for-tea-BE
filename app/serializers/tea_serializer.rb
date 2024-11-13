@@ -1,4 +1,6 @@
 class TeaSerializer
   include JSONAPI::Serializer
-  attributes :title
+
+  attributes :title, :description
+  
 end
