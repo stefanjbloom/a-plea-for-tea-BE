@@ -17,7 +17,7 @@ RSpec.describe "Subscriptions_Controller", type: :request do
     @subscription3 =Subscription.create!(title: "Monthly Mint", price: 14.99, status: "canceled", frequency: "monthly", customer_id: @customer3.id, tea_id: @tea3.id)
   end
   
-  describe "GET/index" do
+  describe "GET/#index" do
     it '#index can retrieve all tea subscriptions' do
 
       get "http://localhost:3000/api/v1/subscriptions"
@@ -49,7 +49,7 @@ RSpec.describe "Subscriptions_Controller", type: :request do
     end
   end
 
-  describe "GET/show" do
+  describe "GET/#show" do
     it '#show can retrieve a single subscription including tea and customer data' do
 
       get "http://localhost:3000/api/v1/subscriptions/#{@subscription2.id}"
@@ -92,6 +92,32 @@ RSpec.describe "Subscriptions_Controller", type: :request do
 
       expect(result[:message]).to eq("Subscription not found")
       expect(result[:errors]).to eq(["Couldn't find Subscription with 'id'=1000"])
+    end
+  end
+
+  describe "PATCH/#update" do
+    it 'can change a subscription\'s status from "active" to "canceled"' do
+      # Original status
+      expect(@subscription3.status).to eq('canceled')
+
+      # #update action to change status
+      patch "http://localhost:3000/api/v1/subscriptions/#{@subscription3.id}"
+
+      expect(response).to have_http_status(:ok)
+
+      result = JSON.parse(response.body, symbolize_names: true)
+
+      expect(result[:message]).to eq("Subscription Status Changed")
+      expect(result[:status]).to eq("active")
+      
+      #Checking to see if change updated #show endpoint 
+      get "http://localhost:3000/api/v1/subscriptions/#{@subscription3.id}"
+
+      expect(response).to have_http_status(:ok)
+
+      result = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
+
+      expect(result[:status]).to eq('active')
     end
   end
 end

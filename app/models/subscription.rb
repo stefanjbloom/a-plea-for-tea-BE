@@ -7,4 +7,12 @@ class Subscription < ApplicationRecord
   validates :price, numericality: true
   validates :status, inclusion: { in: %w(active canceled), message: "Invalid Status" }
   validates :frequency, inclusion: { in: %w(weekly monthly), message: "Only Weekly or Monthly" }
+
+  def update_subscription
+    if status == "active"
+      update!(status: "canceled")
+    else
+      update!(status: "active")
+    end
+  end
 end
